@@ -1,5 +1,6 @@
 import 'package:expenses/Models/Transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 main() {
   runApp(ExpensesApp());
@@ -10,6 +11,7 @@ class ExpensesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Home(),
+      theme: ThemeData(primaryColor: Colors.purple),
     );
   }
 }
@@ -39,13 +41,14 @@ class Home extends StatelessWidget {
           Column(
             children: _transactions
                 .map((e) => Card(
+                      elevation: 5,
                       child: Row(
                         children: <Widget>[
                           Container(
                             margin: EdgeInsets.symmetric(
                                 horizontal: 15, vertical: 10),
                             child: Text(
-                              e.value.toString(),
+                              "R\$ ${e.value.toStringAsFixed(2)}",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.purple),
@@ -63,16 +66,37 @@ class Home extends StatelessWidget {
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               ),
-                              Text(e.date.toString(),
+                              Text(DateFormat('d MMM y').format(e.date),
                                   style: TextStyle(
                                     color: Colors.grey,
-                                  ))
+                                  )),
                             ],
                           )
                         ],
                       ),
                     ))
                 .toList(),
+          ),
+          Card(
+            elevation: 5,
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: <Widget>[
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Título'),
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Valor R\$'),
+                  ),
+                  FlatButton(
+                    onPressed: () {},
+                    child: Text('Nova Transação'),
+                    textColor: Colors.purple,
+                  )
+                ],
+              ),
+            ),
           )
         ],
       ),
